@@ -36,7 +36,7 @@ const App = () => {
       
       <Backgroundlayer image={bgImg} />
     {isLoggedIn ? (
-      <div className='h-[95vh] w-full max-w-lg bg-white/40 rounded-2xl shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-[7.2px] border border-white/2 overflow-hidden flex flex-col'>
+      <div className='h-[95vh] w-full max-w-lg bg-white/14 rounded-2xl shadow-2xl backdrop-blur-[5px] border border-white/30 overflow-hidden flex flex-col'>
         {/* <div className='border-r-grey border-r w-60'>
           <h1>sidebar</h1>
         </div> */}

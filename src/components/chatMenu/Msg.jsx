@@ -1,5 +1,5 @@
 import React from 'react'
-import userImage from '@/assets/images/user.jpg';
+import userImage from '@/assets/images/img3.png';
 import Smilyplus from '../../assets/icons/Smilyplus';
 
 const Msg = (
@@ -12,9 +12,9 @@ const Msg = (
   return (
      <div className={`flex ${user ? "flex-row-reverse" : "flex-row"} gap-2 items-start mb-2 group`}>
         
-       { !user && <span className='w-9 h-9 rounded-full overflow-hidden flex justify-center items-center object-cover object-center shrink-0'>
+       {/* { !user && <span className='w-9 h-9 rounded-full overflow-hidden flex justify-center items-center object-cover object-center shrink-0'>
             <img src={userImage} alt="user img" width="24" height="24" className=' scale-210' />
-        </span>}
+        </span>} */}
         
         <div className={`flex flex-col ${user ? "items-end" : "items-start"} max-w-[80%] `}>
           <div className='relative '>
@@ -24,7 +24,7 @@ const Msg = (
             <Smilyplus color="#4e4e4e" size={20} className={`absolute top-2 cursor-pointer transition-opacity duration-200 delay-100 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto ${user ? "-left-7" : "-right-7" } `} />
           </div>
             
-            <span className='text-[10px] mt-1 opacity-60 font-medium px-1'>{min}</span>
+            <span className='text-[12px] opacity-80 mt-1 font-medium px-1 select-none'>{min}</span>
         </div>
     </div>
   )

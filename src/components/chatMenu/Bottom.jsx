@@ -8,7 +8,7 @@ import Send from '@/assets/icons/Send';
 // emoji keyboard 
 import EmojiPicker from 'emoji-picker-react';
 
-const Bottom = () => {
+const Bottom = ({ onCameraClick }) => {
 
   const [text, setText] = useState("");
   const [showEmoji, setShowEmoji] = useState(false);
@@ -35,9 +35,11 @@ const Bottom = () => {
         {/* icon section  */}
         <div className='flex rounded-xl overflow-hidden transition-colors duration-200 ease-in-out bg-white/20'>
             <Mic className="cursor-pointer hover:bg-[#aaadafb6] p-2" color="#313131" />
-            <Camera className="cursor-pointer hover:bg-[#aaadafb6] p-2" color="#313131" />
+            <span onClick={onCameraClick}>
+                <Camera className="cursor-pointer hover:bg-[#aaadafb6] p-2" color="#313131" />
+            </span>
         </div>
-        <div className='relative flex flex-1 py-1 rounded-3xl bg-white/20'>
+        <div className='relative flex flex-1 py-1 rounded-3xl bg-white/30'>
 
             <div 
               className={`absolute bottom-full left-0 mb-3 z-50 transition-all duration-300 ease-in-out 
@@ -56,7 +58,7 @@ const Bottom = () => {
               type="text"
               placeholder='Message'
               value={text}
-              className='focus:outline-0 w-full px-2 bg-transparent caret-amber-50 font-semibold cursor-context-menu'
+              className='focus:outline-0 w-full px-2 bg-transparent font-semibold cursor-context-menu'
               onChange={handleInputChange}
               onKeyDown={(e) => e.key === 'Enter' && handleSend()}
             />

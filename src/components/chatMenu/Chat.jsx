@@ -1,12 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Phone } from '@/assets/icons/Phone';
 import Navdot from '@/assets/icons/Navdot.jsx';
-import userImage from '@/assets/images/user.jpg'
+import userImage from '@/assets/images/img3.png'
 import Msg  from './Msg.jsx';
 import Bottom from './Bottom.jsx';
+import WebCam from './WebCam.jsx';
 
 const Chat = () => {
   const [online, setOnline] = useState(true);
+  const [camera, setCameraopen] = useState(false);
 
   const [navpop, setNavpop] = useState(false);
   const messageEnd = useRef(null);
@@ -14,19 +16,19 @@ const Chat = () => {
  
   useEffect(() => {
     messageEnd.current?.scrollIntoView({ behavior: 'smooth' });
-  }, []); 
+  }, [camera]); 
 
   return (
     <div className='flex w-full h-full flex-col'>
         
         {/* chat header  */}
-        <div className='flex items-center w-full justify-between py-2 px-3 bg-white/50 rounded-t-2xl'>
+        <div className='flex items-center w-full justify-between py-2 px-3 bg-white/20 rounded-t-2xl'>
             <div className='flex gap-4 justify-between px-3 items-center'>
                 <span className='w-13 h-13 rounded-full overflow-hidden flex justify-center items-center' >
                     <img src={userImage} alt="user img" width="24" className=' scale-210 select-none' />
                 </span>
                 <div>
-                    <h2 className='font-[inter] text-lg leading-tight'>Arun</h2>
+                    <h2 className='font-[inter] text-lg leading-tight select-none'>Arun</h2>
                     <p className={`text-[12px] px-2 py-0.5 w-fit rounded-full select-none font-medium ${
                         online ? 'text-green-700 bg-green-300' : 'text-gray-500 bg-amber-100'
                     }`}>
@@ -44,7 +46,7 @@ const Chat = () => {
                 {/* nav popup  */}
 
                 <div className={`absolute right-0 top-14 font-[inter] z-50 transition-all duration-200 ease-in-out ${!navpop ? "opacity-0 pointer-events-none -translate-y-2.5" : "opacity-100 translate-y-0"}`}>
-                    <ul className='w-32 flex flex-col overflow-hidden bg-white/20 backdrop-blur-md border border-white/30 rounded-xl shadow-lg'>
+                    <ul className='w-32 flex flex-col overflow-hidden bg-white/40 backdrop-blur-3xl border border-white/30 rounded-xl shadow-lg select-none'>
                         <li><button 
                                 className='w-full text-center px-4 py-2 text-sm font-medium text-gray-800 hover:bg-white/30 transition-colors' 
                                 onClick={() => { setNavpop(prev => !prev); setOnline(prev => !prev); }}>
@@ -82,6 +84,9 @@ const Chat = () => {
            <Msg user={true} message='Onnum illa vidu' min="1 Min ago" />
            <Msg message='apdilam vida mudiyadhu' min="1 Min ago" />
            <Msg user={true} message='mudiyadhuna poi savu da venna' min="Just Now" />
+           
+           {camera && <WebCam onClose={() => setCameraopen(false)} />}
+           
 
            <div ref={messageEnd}></div>
         </div>
@@ -90,7 +95,7 @@ const Chat = () => {
         {/* chat bottom  */}
 
         <div className='w-full flex justify-between px-3 py-2 gap-1 items-center self-end'>
-            <Bottom />
+            <Bottom onCameraClick={() => setCameraopen(prev => !prev)} />
         </div>
     </div>
   )
