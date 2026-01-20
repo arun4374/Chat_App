@@ -5,6 +5,7 @@ import userImage from '@/assets/images/img3.png'
 import Msg  from './Msg.jsx';
 import Bottom from './Bottom.jsx';
 import WebCam from './WebCam.jsx';
+import { formatTime } from '../../utils/chatUtils';
 
 const Chat = () => {
   const [online, setOnline] = useState(true);
@@ -13,10 +14,13 @@ const Chat = () => {
   const [navpop, setNavpop] = useState(false);
   const messageEnd = useRef(null);
 
+  const [messages, setMessages] = useState([]);
+  const [isTyping, setIsTyping] = useState(false);
+
  
   useEffect(() => {
     messageEnd.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [camera]); 
+  }, [messages, isTyping]); 
 
   return (
     <div className='flex w-full h-full flex-col'>
@@ -60,34 +64,30 @@ const Chat = () => {
         </div>
 
         {/* chat Details  */}
-        <div className='flex-1 overflow-y-auto w-full p-5 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/20 [&::-webkit-scrollbar-thumb]:rounded-full'>
-           <Msg message='Hi' min="32 Min ago" />
-           <Msg user={true} message='hi 👋'  />
-           <Msg user={true} message='Enna Panra' min="28 Min ago" />
-           <Msg message='Summa tha, nee' min="25 Min ago" />
-           <Msg user={true} message='Insta pathutu irunthen' min="24 Min ago" />
-           <Msg message="app work aguthanu pathan! nalladha work aguthu" min="24 Min ago"/>
-           <Msg user={true} message="ama, pakkava work agudhu" min="23 Min ago" />
-           <Msg message="idhulaye neraya bug iruku bro..." min="22 Min ago" />
-           <Msg user={true} message='enna bug 🧐' min="16 Min ago" />
-           <Msg message='mudincha kandu pudi 😅' min="15 Min ago" />
-           <Msg user={true} message='solra dei'  min="10 Min ago" />
-           <Msg message='konchamavadhu try panra' min="7 Min ago" />
-           <Msg user={true} message='Antha iraa vengayam la engaluku theriyum. ne moditu sollu' min="6 Min ago" />
-           <Msg message='🤣' min="4 Min ago" />
-           <Msg user={true} message='poda angutu' min="4 Min ago" />
-           <Msg message='En enna achi bro' min="3 Min ago" />
-           <Msg user={true} message='avan avan 1008 problem la irukan idhula ne vera' min="3 Min ago" />
-           <Msg message='En un aal vittu poitucha enna 🤣' min="2 Min ago" />
-           <Msg user={true} message='Ethu 🤬' min="2 Min ago" />
-           <Msg message='Vera enna' min="2 Min ago" />
-           <Msg user={true} message='Onnum illa vidu' min="1 Min ago" />
-           <Msg message='apdilam vida mudiyadhu' min="1 Min ago" />
-           <Msg user={true} message='mudiyadhuna poi savu da venna' min="Just Now" />
+        <div className='flex-1 overflow-y-auto overflow-x-hidden w-full p-5 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/20 [&::-webkit-scrollbar-thumb]:rounded-full'>
+
+
+           {/* <Msg user={true} message='hi 👋'  />
+           <Msg message='Hi' min="32 Min ago" /> */}
+           {messages.map((message) => (
+            <Msg key={message.id} message={message.text} min={formatTime(message.timeStamp)} user={message.sender} />
+           ))}
+           
+           {isTyping && (
+             <div className="flex flex-row gap-2 items-start mb-2 ">
+               <div className="bg-[#B9B4C7] text-gray-800 p-2.5 rounded-2xl rounded-tl-none shadow-sm">
+                 <div className="flex gap-1 px-1">
+                   <span className="w-1.5 h-1.5 bg-gray-600 rounded-full animate-bounce [animation-duration:0.8s]"></span>
+                   <span className="w-1.5 h-1.5 bg-gray-600 rounded-full animate-bounce [animation-duration:0.8s] [animation-delay:0.2s]"></span>
+                   <span className="w-1.5 h-1.5 bg-gray-600 rounded-full animate-bounce [animation-duration:0.8s] [animation-delay:0.4s]"></span>
+                 </div>
+               </div>
+             </div>
+           )}
+           
            
            {camera && <WebCam onClose={() => setCameraopen(false)} />}
            
-
            <div ref={messageEnd}></div>
         </div>
 
@@ -95,7 +95,7 @@ const Chat = () => {
         {/* chat bottom  */}
 
         <div className='w-full flex justify-between px-3 py-2 gap-1 items-center self-end'>
-            <Bottom onCameraClick={() => setCameraopen(prev => !prev)} />
+            <Bottom onCameraClick={() => setCameraopen(prev => !prev)} setMessages={setMessages} setIsTyping={setIsTyping} messages={messages} />
         </div>
     </div>
   )
