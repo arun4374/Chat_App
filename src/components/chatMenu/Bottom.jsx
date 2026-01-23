@@ -8,7 +8,9 @@ import Send from '@/assets/icons/Send';
 // emoji keyboard 
 import EmojiPicker from 'emoji-picker-react';
 
-const Bottom = ({ onCameraClick }) => {
+import { getGeminiResponse } from '../../server/Gemini';
+
+const Bottom = ({ onCameraClick, setMessages, setIsTyping, messages }) => {
 
   const [text, setText] = useState("");
   const [showEmoji, setShowEmoji] = useState(false);
@@ -21,11 +23,44 @@ const Bottom = ({ onCameraClick }) => {
     setText((prev) => prev + emojiData.emoji);
   };
 
-  const handleSend = () => {
-    if (text.trim()) {
-      // Logic to send message would go here
+  const handleSend = async () => {
+    const messageText = text.trim();
+    if (messageText) {
+      const userMessage = {
+          id: Date.now().toString(),
+          text: messageText,
+          sender:true,
+          timeStamp: new Date()
+        };
+
+        setMessages((prev)=>[...prev, userMessage])
       setText("");
       setShowEmoji(false);
+
+      setIsTyping(true);
+
+      // Format history for Gemini API
+      const history = messages.map(msg => ({
+        role: msg.sender ? "user" : "model",
+        parts: [{ text: msg.text }],
+      }));
+
+      try {
+        const botResponseText = await getGeminiResponse(messageText, history);
+        
+        const botMessage = {
+            id: (Date.now() + 1).toString(),
+            text: botResponseText,
+            sender: false,
+            timeStamp: new Date()
+        };
+
+        setMessages((prev) => [...prev, botMessage]);
+      } catch (error) {
+        console.error("Error getting AI response:", error);
+      } finally {
+        setIsTyping(false);
+      }
     }
   };
 

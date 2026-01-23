@@ -12,7 +12,7 @@ const App = () => {
   const imgList = [img1, img2, img3, img4];
   const [bgImg, setbg] = useState(imgList[0]);
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   
   const randomImg=(newImg)=>{
@@ -36,7 +36,7 @@ const App = () => {
       
       <Backgroundlayer image={bgImg} />
     {isLoggedIn ? (
-      <div className='h-[95vh] w-full max-w-lg bg-white/14 rounded-2xl shadow-2xl backdrop-blur-[5px] border border-white/30 overflow-hidden flex flex-col'>
+      <div className='h-[95vh] w-full max-w-lg bg-white/14 rounded-2xl shadow-2xl backdrop-blur-[5px] border border-white/30  flex flex-row'>
         {/* <div className='border-r-grey border-r w-60'>
           <h1>sidebar</h1>
         </div> */}
