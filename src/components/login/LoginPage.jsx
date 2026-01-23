@@ -10,11 +10,26 @@ import img7 from '../../assets/images/img7.png';
 import img8 from '../../assets/images/img8.png';
 // import img from '../../assets/images/user.jpg';
 import Refresh  from '../../assets/icons/Refresh';
+import Register from './Register';
+import Password from './Password';
 
 const LoginPage = ({ onLogin }) => {
 
     const imgList = [img1, img2, img3, img4, img5, img6, img7, img8];
     const [avatar, setAvatar] = useState(imgList[0]);
+    const [username, setUsername] = useState('');
+    const [roomId, setRoomId] = useState('');
+    const [roomPassword, setRoomPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [isValid, setIsValid] = useState(true);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [shake, setShake] = useState(false);
+
+    const sampleRooms = [
+        { id: "room1", password: "123" },
+        { id: "test", password: "pass" },
+        { id: "admin", password: "admin" }
+    ];
 
     const randomImg=(newImg)=>{
         const img = new Image();
@@ -31,8 +46,68 @@ const LoginPage = ({ onLogin }) => {
         randomImg(imgList[nextIndex]);
     };
 
+    const triggerShake = () => {
+        setShake(true);
+        setTimeout(() => setShake(false), 300);
+    };
+
+    const handleUsername = (e) => {
+               setUsername(e.target.value);
+               if (errorMessage) setErrorMessage('');
+           };
+    
+           const handleInput = (e) => {
+               setRoomId(e.target.value);
+               if (!isValid) setIsValid(true);
+               if (errorMessage) setErrorMessage('');
+           };
+    
+           const handleLoginClick = () => {
+               if (!username.trim()) {
+                   setErrorMessage("Please enter a username");
+                   triggerShake();
+                   return;
+               }
+               if (!roomId.trim()) {
+                   setIsValid(false);
+                   setErrorMessage("Please enter a Team Code");
+                   triggerShake();
+                   return;
+               }
+    
+               const roomExists = sampleRooms.some(room => room.id === roomId);
+               if (roomExists) {
+                   setShowPassword(true);
+                   setErrorMessage('');
+               } else {
+                   setIsValid(false);
+                   setErrorMessage("Room does not exist");
+                   triggerShake();
+               }
+           };
+    
+           const handlePopupEnter = () => {
+               const room = sampleRooms.find(r => r.id === roomId);
+               if (room && room.password === roomPassword) {
+                   onLogin();
+               } else {
+                   setErrorMessage("Incorrect Password");
+                   triggerShake();
+               }
+           };
+
   return (
     <div className='w-full max-w-sm bg-white/40 backdrop-blur-[10px] border border-white/30 rounded-3xl shadow-2xl p-8 flex flex-col items-center gap-8 animate-fade-in'>
+        <style>{`
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-5px); }
+                75% { transform: translateX(5px); }
+            }
+            .animate-shake {
+                animation: shake 0.3s ease-in-out;
+            }
+        `}</style>
         <div className='text-center'>
             <h1 className='text-3xl font-bold text-gray-800 font-[inter]'>Welcome</h1>
             <p className='text-gray-600 text-sm mt-1 font-medium'>Join the conversation</p>
@@ -47,27 +122,35 @@ const LoginPage = ({ onLogin }) => {
             </button>
         </div>
 
-        <div className='w-full flex flex-col gap-4'>
-            <input 
-                type="text" 
-                placeholder='Username' 
-                className='w-full px-5 py-3 outline-none bg-white/30 focus:bg-white/50 rounded-xl border border-white/20 focus:border-[#7A85C1]/50 transition-all duration-200 placeholder:text-gray-500 font-medium'
-            />
-            <input 
-                type="text" 
-                placeholder='Team Code' 
-                className='w-full px-5 py-3 outline-none bg-white/30 focus:bg-white/50 rounded-xl border border-white/20 focus:border-[#7A85C1]/50 transition-all duration-200 placeholder:text-gray-500 font-medium' 
-            />
-        </div>
+                {showPassword ? (
+                    <Password 
+                        roomPassword={roomPassword}
+                        setRoomPassword={(val) => {
+                            setRoomPassword(val);
+                            if (errorMessage) setErrorMessage('');
+                        }}
+                        setShowPopup={() => { setShowPassword(false); setErrorMessage(''); }}
+                        handlePopupEnter={handlePopupEnter}
+                        errorMessage={errorMessage}
+                        shake={shake}
+                    />
+                ) : (
+                    <Register 
+                        username={username}
+                        handleInput={handleInput}
+                        handleUsername={handleUsername}
+                        roomId={roomId}
+                        handleLoginClick={handleLoginClick}
+                        isValid={isValid}
+                        errorMessage={errorMessage}
+                        shake={shake}
+                    />
+                )}
+             </div>
+           )
+         }
+        
+        
 
-        <button 
-            className='w-full py-3 bg-[#7A85C1] hover:bg-[#6a74a8] text-white font-bold rounded-xl shadow-lg hover:shadow-[#7A85C1]/30 transition-all duration-200 active:scale-[0.98] cursor-pointer'
-            onClick={onLogin}
-        >
-            Login
-        </button>
-    </div>
-  )
-}
 
 export default LoginPage

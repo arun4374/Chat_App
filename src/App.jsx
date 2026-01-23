@@ -12,7 +12,7 @@ const App = () => {
   const imgList = [img1, img2, img3, img4];
   const [bgImg, setbg] = useState(imgList[0]);
 
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   
   const randomImg=(newImg)=>{
@@ -40,7 +40,7 @@ const App = () => {
         {/* <div className='border-r-grey border-r w-60'>
           <h1>sidebar</h1>
         </div> */}
-        <Chat />
+        <Chat onLogout={() => setIsLoggedIn(false)} />
       </div>
     ): (
       <LoginPage onLogin={() => setIsLoggedIn(true)} />

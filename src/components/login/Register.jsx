@@ -6,11 +6,13 @@ const Register = ({
     handleUsername,
     roomId,
     handleLoginClick,
-    isValid
+    isValid,
+    errorMessage,
+    shake
 }) => {
   return (
     <>
-        <div className='w-full flex flex-col gap-4'>
+        <div className={`w-full flex flex-col gap-4 ${shake ? "animate-shake" : ""}`}>
               <input 
                 type="text" 
                 placeholder='Username' 
@@ -27,6 +29,7 @@ const Register = ({
                 onChange = {handleInput}
             /> 
         </div> 
+        {errorMessage && <p className="text-red-500 text-sm font-medium text-center">{errorMessage}</p>}
 
         <button 
             className='w-full py-3 bg-[#7A85C1] hover:bg-[#6a74a8] text-white font-bold rounded-xl shadow-lg hover:shadow-[#7A85C1]/30 transition-all duration-200 active:scale-[0.98] cursor-pointer'

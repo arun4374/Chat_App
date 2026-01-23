@@ -7,20 +7,46 @@ import Bottom from './Bottom.jsx';
 import WebCam from './WebCam.jsx';
 import { formatTime } from '../../utils/chatUtils';
 
-const Chat = () => {
+const Chat = ({ onLogout }) => {
   const [online, setOnline] = useState(true);
   const [camera, setCameraopen] = useState(false);
 
   const [navpop, setNavpop] = useState(false);
   const messageEnd = useRef(null);
 
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState(() => {
+    try {
+      const savedMessages = localStorage.getItem('chatMessages');
+      return savedMessages ? JSON.parse(savedMessages).map(msg => ({
+        ...msg,
+        timeStamp: new Date(msg.timeStamp)
+      })) : [];
+    } catch (error) {
+      console.error("Error loading messages from localStorage:", error);
+      return [];
+    }
+  });
   const [isTyping, setIsTyping] = useState(false);
 
  
   useEffect(() => {
+    localStorage.setItem('chatMessages', JSON.stringify(messages));
+  }, [messages]);
+
+  useEffect(() => {
     messageEnd.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isTyping]); 
+
+  const handleReport = () => {
+    setNavpop(false);
+    if (onLogout) onLogout();
+  };
+
+  const handleBlock = () => {
+    setNavpop(false);
+    localStorage.clear();
+    setMessages([]);
+  };
 
   return (
     <div className='flex w-full h-full flex-col'>
@@ -56,8 +82,8 @@ const Chat = () => {
                                 onClick={() => { setNavpop(prev => !prev); setOnline(prev => !prev); }}>
                                 Pin
                             </button></li>
-                        <li><button className='w-full text-center px-4 py-2 text-sm font-medium text-red-600 hover:bg-white/30 transition-colors' onClick={()=> setNavpop((prev) => !prev)}>Report</button></li>
-                        <li><button className='w-full text-center px-4 py-2 text-sm font-medium text-red-600 hover:bg-white/30 transition-colors' onClick={()=> setNavpop((prev) => !prev)}>Block</button></li>
+                        <li><button className='w-full text-center px-4 py-2 text-sm font-medium text-red-600 hover:bg-white/30 transition-colors' onClick={()=>{setNavpop(prev => !prev);handleReport()}}>Report</button></li>
+                        <li><button className='w-full text-center px-4 py-2 text-sm font-medium text-red-600 hover:bg-white/30 transition-colors' onClick={()=>{setNavpop(prev => !prev);handleBlock()}}>Block</button></li>
                     </ul>
                 </div>
             </div>
@@ -67,8 +93,11 @@ const Chat = () => {
         <div className='flex-1 overflow-y-auto overflow-x-hidden w-full p-5 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/20 [&::-webkit-scrollbar-thumb]:rounded-full'>
 
 
-           {/* <Msg user={true} message='hi 👋'  />
-           <Msg message='Hi' min="32 Min ago" /> */}
+           <div className='flex justify-center mb-6 mt-2'>
+             <p className='text-[11px] text-gray-700 bg-white/30 backdrop-blur-sm px-4 py-2 rounded-xl text-center max-w-[90%] border border-white/20 shadow-sm font-medium leading-relaxed'>
+               🔒 Secure room messages are only visible to users in that room, and the room is automaticaly deleted when no one is online.
+             </p>
+           </div>
            {messages.map((message) => (
             <Msg key={message.id} message={message.text} min={formatTime(message.timeStamp)} user={message.sender} />
            ))}
