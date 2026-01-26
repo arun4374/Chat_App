@@ -8,7 +8,6 @@ import img5 from '../../assets/images/img5.png';
 import img6 from '../../assets/images/img6.png';
 import img7 from '../../assets/images/img7.png';
 import img8 from '../../assets/images/img8.png';
-// import img from '../../assets/images/user.jpg';
 import Refresh  from '../../assets/icons/Refresh';
 import Register from './Register';
 import Password from './Password';

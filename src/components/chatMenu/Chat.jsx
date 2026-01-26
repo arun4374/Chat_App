@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Phone } from '@/assets/icons/Phone';
 import Navdot from '@/assets/icons/Navdot.jsx';
-import userImage from '@/assets/images/img3.png'
+import userImage from '@/assets/images/img1.png'
 import Msg  from './Msg.jsx';
 import Bottom from './Bottom.jsx';
 import WebCam from './WebCam.jsx';
@@ -50,7 +50,6 @@ const Chat = ({ onLogout }) => {
 
   return (
     <div className='flex w-full h-full flex-col'>
-        
         {/* chat header  */}
         <div className='flex items-center w-full justify-between py-2 px-3 bg-white/20 rounded-t-right-2xl'>
             <div className='flex gap-4 justify-between px-3 items-center'>
@@ -58,7 +57,7 @@ const Chat = ({ onLogout }) => {
                     <img src={userImage} alt="user img" width="24" className=' scale-210 select-none' />
                 </span>
                 <div>
-                    <h2 className='font-[inter] text-lg leading-tight select-none'>Arun</h2>
+                    <h2 className='font-[inter] text-lg leading-tight select-none'>Sonu</h2>
                     <p className={`text-[12px] px-2 py-0.5 w-fit rounded-full select-none font-medium ${
                         online ? 'text-green-700 bg-green-300' : 'text-gray-500 bg-amber-100'
                     }`}>

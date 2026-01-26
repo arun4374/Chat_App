@@ -7,7 +7,6 @@ const Register = ({
     roomId,
     handleLoginClick,
     isValid,
-    errorMessage,
     shake,
     roomStatus
 }) => {

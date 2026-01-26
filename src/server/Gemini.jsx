@@ -6,7 +6,7 @@ const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 const genAI = new GoogleGenAI({apiKey:GEMINI_API_KEY});
 
 
-const personality = `#########`;
+const personality = `#########`; 
 
 export const getGeminiResponse = async (MessageChannel, history = []) => {
     try {

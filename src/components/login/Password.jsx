@@ -1,5 +1,4 @@
 import React from 'react';
-
 import Undo from '../../assets/icons/Undo';
 
 const Password = ({

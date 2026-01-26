@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
 import ChatList from './ChatList'
 import SearchBar from './SearchBar'
-import img1 from '../../assets/images/img1.png';
-import img2 from '../../assets/images/img2.png';
+import img5 from '../../assets/images/img5.png';
+import img8 from '../../assets/images/img8.png';
 import img3 from '../../assets/images/img3.png';
 
 const Sidebar = ({ userData }) => {
     const [searchTerm, setSearchTerm] = useState('');
 
     const chats = [
-        { id: 1, name: "Design Team", message: "Hey, how's the progress?", time: "2m", img: img1, unread: 2 },
-        { id: 2, name: "John Doe", message: "Can we meet tomorrow?", time: "1h", img: img2, unread: 0 },
-        { id: 3, name: "Project Alpha", message: "Files uploaded.", time: "3h", img: img3, unread: 5 },
+        { id: 1, name: "Naveen", message: "Hey, how's the progress?", time: "2m", img: img3, unread: 2 },
+        { id: 2, name: "Thivakar", message: "Can we meet tomorrow?", time: "1h", img: img5, unread: 0 },
+        { id: 3, name: "Siva", message: "Don't worry..", time: "1h", img: img8, unread: 2 },
     ];
 
     const filteredChats = chats.filter(chat => chat.name.toLowerCase().includes(searchTerm.toLowerCase()));

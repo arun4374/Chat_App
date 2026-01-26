@@ -9,7 +9,7 @@ const SearchBar = ({ value, onChange }) => {
             </svg>
             <input 
                 type="text" 
-                placeholder='Search chats...' 
+                placeholder='Search' 
                 className='bg-transparent border-none outline-none text-gray-800 placeholder-gray-600 text-sm font-medium w-full'
                 value={value}
                 onChange={onChange}

@@ -4,7 +4,6 @@ import Mic from '@/assets/icons/Mic';
 import Emoji from '@/assets/icons/Emoji';
 import Camera from '@/assets/icons/Camera';
 import Send from '@/assets/icons/Send';
-
 // emoji keyboard 
 import EmojiPicker from 'emoji-picker-react';
 

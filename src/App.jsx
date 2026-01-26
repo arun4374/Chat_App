@@ -40,7 +40,7 @@ const App = () => {
     {isLoggedIn ? (
       <>
       <div className='h-[90vh] w-full max-w-xl bg-white/10 rounded-3xl shadow-2xl backdrop-blur-lg border border-white/20 flex flex-row overflow-hidden'>
-        {/* <Sidebar userData={userData} /> */}
+        <Sidebar userData={userData} />
         <Chat onLogout={() => { setIsLoggedIn(false); setUserData(null); }} />
       </div>
       </>
@@ -49,12 +49,12 @@ const App = () => {
     )}
       
       
-      {/* <button 
+      <button 
         className='absolute right-10 bottom-5 p-3 rounded-full bg-[#c27df0] cursor-pointer hover:scale-110 active:scale-95 transition-all duration-400 shadow-lg' 
         onClick={cycleTheme}
       >
           <ThemeIcon />
-      </button> */}
+      </button>
     </div>
   )
 }

@@ -13,6 +13,7 @@ const ChatList = ({ chats }) => {
                             {chat.unread}
                         </div>
                     )}
+                    
                 </div>
                 <div className='flex-1 min-w-0'>
                     <div className='flex justify-between items-center mb-0.5'>

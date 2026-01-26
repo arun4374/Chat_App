@@ -44,10 +44,6 @@ const Msg = (
   return (
      <div className={`flex ${user ? "flex-row-reverse" : "flex-row"} gap-2 items-start mb-2 group`}>
         
-       {/* { !user && <span className='w-9 h-9 rounded-full overflow-hidden flex justify-center items-center object-cover object-center shrink-0'>
-            <img src={userImage} alt="user img" width="24" height="24" className=' scale-210' />
-        </span>} */}
-        
         <div className={`flex flex-col ${user ? "items-end" : "items-start"} max-w-[80%] animate-pop ${user ? "origin-bottom-right" : "origin-bottom-left"}`}>
           <div className='relative '>
             {showReactions && (
