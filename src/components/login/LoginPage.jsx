@@ -24,6 +24,10 @@ const LoginPage = ({ onLogin }) => {
     const [isValid, setIsValid] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
     const [shake, setShake] = useState(false);
+    const [roomStatus, setRoomStatus] = useState(null);
+
+    // Random password
+    const [randomPass, setRandompassword] = useState('');
 
     const sampleRooms = [
         { id: "room1", password: "123" },
@@ -51,50 +55,77 @@ const LoginPage = ({ onLogin }) => {
         setTimeout(() => setShake(false), 300);
     };
 
-    const handleUsername = (e) => {
+        const handleUsername = (e) => {
                setUsername(e.target.value);
                if (errorMessage) setErrorMessage('');
-           };
+        };
     
-           const handleInput = (e) => {
-               setRoomId(e.target.value);
-               if (!isValid) setIsValid(true);
-               if (errorMessage) setErrorMessage('');
-           };
+        const handleInput = (e) => {
+            const val = e.target.value;
+            setRoomId(val);
+            if (!isValid) setIsValid(true);
+            if (errorMessage) setErrorMessage('');
+
+            if (val.length === 0) {
+                setRoomStatus(null);
+            } else if (val.length < 4) {
+                setRoomStatus('short');
+            } else {
+                const exists = sampleRooms.some(room => room.id === val);
+                setRoomStatus(exists ? 'exists' : 'available');
+            }
+        };
+
+        // Random password generator 
+
+        const randomPassword = () => {
+            const pattern = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#%&_?-$";
+
+            const length = 6;
+            let randomPass = "";
+
+            for(let i=0;i<length;i++){
+                let randomIndex = Math.floor(Math.random() * pattern.length);
+                randomPass += pattern[randomIndex];
+            }
+            setRandompassword(randomPass);
+            console.log(randomPass);
+        }
     
-           const handleLoginClick = () => {
-               if (!username.trim()) {
-                   setErrorMessage("Please enter a username");
-                   triggerShake();
-                   return;
-               }
-               if (!roomId.trim()) {
-                   setIsValid(false);
-                   setErrorMessage("Please enter a Team Code");
-                   triggerShake();
-                   return;
-               }
-    
-               const roomExists = sampleRooms.some(room => room.id === roomId);
-               if (roomExists) {
-                   setShowPassword(true);
-                   setErrorMessage('');
-               } else {
-                   setIsValid(false);
-                   setErrorMessage("Room does not exist");
-                   triggerShake();
-               }
-           };
-    
-           const handlePopupEnter = () => {
-               const room = sampleRooms.find(r => r.id === roomId);
-               if (room && room.password === roomPassword) {
-                   onLogin();
-               } else {
-                   setErrorMessage("Incorrect Password");
-                   triggerShake();
-               }
-           };
+        const handleLoginClick = () => {
+            if (!username.trim()) {
+                setErrorMessage("Please enter a username");
+                triggerShake();
+                return;
+            }
+            if (!roomId.trim()) {
+                setIsValid(false);
+                setErrorMessage("Please enter a Team Code");
+                triggerShake();
+                return;
+            }
+
+            const roomExists = sampleRooms.some(room => room.id === roomId);
+            if (roomExists) {
+                setShowPassword(true);
+                setErrorMessage('');
+            } else {
+                setIsValid(true);
+                randomPassword();
+                
+                onLogin({ username, avatar });
+            }
+        };
+
+        const handlePopupEnter = () => {
+            const room = sampleRooms.find(r => r.id === roomId);
+            if (room && room.password === roomPassword) {
+                onLogin({ username, avatar });
+            } else {
+                setErrorMessage("Incorrect Password");
+                triggerShake();
+            }
+        };
 
   return (
     <div className='w-full max-w-sm bg-white/40 backdrop-blur-[10px] border border-white/30 rounded-3xl shadow-2xl p-8 flex flex-col items-center gap-8 animate-fade-in'>
@@ -144,6 +175,7 @@ const LoginPage = ({ onLogin }) => {
                         isValid={isValid}
                         errorMessage={errorMessage}
                         shake={shake}
+                        roomStatus={roomStatus}
                     />
                 )}
              </div>

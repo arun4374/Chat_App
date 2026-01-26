@@ -37,12 +37,12 @@ const Chat = ({ onLogout }) => {
     messageEnd.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isTyping]); 
 
-  const handleReport = () => {
+  const handleLogout = () => {
     setNavpop(false);
     if (onLogout) onLogout();
   };
 
-  const handleBlock = () => {
+  const handleClear = () => {
     setNavpop(false);
     localStorage.clear();
     setMessages([]);
@@ -52,7 +52,7 @@ const Chat = ({ onLogout }) => {
     <div className='flex w-full h-full flex-col'>
         
         {/* chat header  */}
-        <div className='flex items-center w-full justify-between py-2 px-3 bg-white/20 rounded-t-2xl'>
+        <div className='flex items-center w-full justify-between py-2 px-3 bg-white/20 rounded-t-right-2xl'>
             <div className='flex gap-4 justify-between px-3 items-center'>
                 <span className='w-13 h-13 rounded-full overflow-hidden flex justify-center items-center' >
                     <img src={userImage} alt="user img" width="24" className=' scale-210 select-none' />
@@ -75,15 +75,26 @@ const Chat = ({ onLogout }) => {
 
                 {/* nav popup  */}
 
-                <div className={`absolute right-0 top-14 font-[inter] z-50 transition-all duration-200 ease-in-out ${!navpop ? "opacity-0 pointer-events-none -translate-y-2.5" : "opacity-100 translate-y-0"}`}>
-                    <ul className='w-32 flex flex-col overflow-hidden bg-white/40 backdrop-blur-3xl border border-white/30 rounded-xl shadow-lg select-none'>
-                        <li><button 
+                <div className={`absolute right-1 top-10 font-[inter] z-50 transition-all duration-200 ease-in-out ${!navpop ? "opacity-0 pointer-events-none -translate-y-2.5" : "opacity-100 translate-y-0"}`}>
+                    <ul className='w-32 flex flex-col overflow-hidden bg-black/10 backdrop-blur-3xl border border-white/30 rounded-xl shadow-lg select-none'>
+                        <li>
+                            <button 
                                 className='w-full text-center px-4 py-2 text-sm font-medium text-gray-800 hover:bg-white/30 transition-colors' 
                                 onClick={() => { setNavpop(prev => !prev); setOnline(prev => !prev); }}>
                                 Pin
-                            </button></li>
-                        <li><button className='w-full text-center px-4 py-2 text-sm font-medium text-red-600 hover:bg-white/30 transition-colors' onClick={()=>{setNavpop(prev => !prev);handleReport()}}>Report</button></li>
-                        <li><button className='w-full text-center px-4 py-2 text-sm font-medium text-red-600 hover:bg-white/30 transition-colors' onClick={()=>{setNavpop(prev => !prev);handleBlock()}}>Block</button></li>
+                            </button>
+                        </li>
+
+                        <li>
+                          <button className='w-full text-center px-4 py-2 text-sm font-medium text-red-600 hover:bg-white/30 transition-colors' onClick={()=>{setNavpop(prev => !prev);handleClear()}}>Clear chat
+                          </button>
+                        </li>
+
+                        <li>
+                          <button className='w-full text-center px-4 py-2 text-sm font-medium text-red-600 hover:bg-white/30 transition-colors' onClick={()=>{setNavpop(prev => !prev);handleLogout()}}>Logout
+                          </button>
+                        </li>
+                        
                     </ul>
                 </div>
             </div>
@@ -93,9 +104,9 @@ const Chat = ({ onLogout }) => {
         <div className='flex-1 overflow-y-auto overflow-x-hidden w-full p-5 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/20 [&::-webkit-scrollbar-thumb]:rounded-full'>
 
 
-           <div className='flex justify-center mb-6 mt-2'>
-             <p className='text-[11px] text-gray-700 bg-white/30 backdrop-blur-sm px-4 py-2 rounded-xl text-center max-w-[90%] border border-white/20 shadow-sm font-medium leading-relaxed'>
-               🔒 Secure room messages are only visible to users in that room, and the room is automaticaly deleted when no one is online.
+           <div className='flex justify-center mb-6'>
+             <p className='text-[11px] text-gray-700 bg-white/30 backdrop-blur-sm px-4 py-2 rounded-xl text-center max-w-[80%] border border-white/20 shadow-sm font-medium leading-relaxed select-none'>
+               🔒 This room is private. Messages disappear when no one is online.
              </p>
            </div>
            {messages.map((message) => (

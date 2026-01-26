@@ -7,12 +7,14 @@ import img3 from './assets/images/bg3.jpg';
 import img4 from './assets/images/bg4.jpg';
 import Backgroundlayer from './components/layout/Backgroundlayer.jsx';
 import LoginPage from './components/login/LoginPage.jsx';
+import Sidebar from './components/sideBar/SideBar.jsx';
 
 const App = () => {
   const imgList = [img1, img2, img3, img4];
   const [bgImg, setbg] = useState(imgList[0]);
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [userData, setUserData] = useState(null);
 
   
   const randomImg=(newImg)=>{
@@ -36,23 +38,23 @@ const App = () => {
       
       <Backgroundlayer image={bgImg} />
     {isLoggedIn ? (
-      <div className='h-[95vh] w-full max-w-lg bg-white/14 rounded-2xl shadow-2xl backdrop-blur-[5px] border border-white/30  flex flex-row'>
-        {/* <div className='border-r-grey border-r w-60'>
-          <h1>sidebar</h1>
-        </div> */}
-        <Chat onLogout={() => setIsLoggedIn(false)} />
+      <>
+      <div className='h-[90vh] w-full max-w-xl bg-white/10 rounded-3xl shadow-2xl backdrop-blur-lg border border-white/20 flex flex-row overflow-hidden'>
+        {/* <Sidebar userData={userData} /> */}
+        <Chat onLogout={() => { setIsLoggedIn(false); setUserData(null); }} />
       </div>
+      </>
     ): (
-      <LoginPage onLogin={() => setIsLoggedIn(true)} />
+      <LoginPage onLogin={(user) => { setUserData(user); setIsLoggedIn(true); }} />
     )}
       
       
-      <button 
+      {/* <button 
         className='absolute right-10 bottom-5 p-3 rounded-full bg-[#c27df0] cursor-pointer hover:scale-110 active:scale-95 transition-all duration-400 shadow-lg' 
         onClick={cycleTheme}
       >
           <ThemeIcon />
-      </button>
+      </button> */}
     </div>
   )
 }
